@@ -1,6 +1,8 @@
 'use client'
+
 import Link from "next/link";
-import React, { useState } from 'react';
+import React  from 'react';
+import { useState }  from 'react';
 import { useRouter } from "next/navigation"; // Corrected import path
 import axios from "axios";
 
@@ -10,6 +12,7 @@ export default function LoginPage() {
     email: "",
     password: "",
   });
+  const [error, setError] = useState(""); // State for error message
 
   const onLogin = async () => {
     try {
@@ -17,6 +20,8 @@ export default function LoginPage() {
       console.log('User logged in', response.data);
       router.push('/profile');
     } catch (error: any) {
+      // Handle login error and set the error state
+      setError("Login failed. Please check your email and password.");
       console.log('Error occurred', error.message);
     }
   }
@@ -25,6 +30,9 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center">
       <div className="max-w-md w-full p-4 bg-white shadow-md rounded-lg">
         <h2 className="text-2xl font-semibold mb-4">Login</h2>
+        {error && ( // Conditional rendering of error message
+          <div className="text-red-500 mb-4">{error}</div>
+        )}
         <div className="mb-4">
           <label htmlFor="email" className="block text-gray-700">Email:</label>
           <input
